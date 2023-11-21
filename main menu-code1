@@ -1,0 +1,19 @@
+import flash.media.SoundMixer;
+import flash.events.MouseEvent;
+
+HTP.addEventListener(MouseEvent.CLICK, fl_ClickToGoToNextFrame_5);
+
+function fl_ClickToGoToNextFrame_5(event:MouseEvent):void {
+    gotoAndStop(1, "How To Play");
+}
+
+STRT.addEventListener(MouseEvent.CLICK, fl_ClickToGoToNextFrame_7);
+
+function fl_ClickToGoToNextFrame_7(event:MouseEvent):void {
+    stopAudio();
+    gotoAndPlay(1, "Background Story");
+}
+
+function stopAudio():void {
+    SoundMixer.stopAll();
+}
