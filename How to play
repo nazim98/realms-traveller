@@ -1,0 +1,6 @@
+backToMain.addEventListener(MouseEvent.CLICK, fl_ClickToGoToNextFrame_3);
+
+function fl_ClickToGoToNextFrame_3(event:MouseEvent):void
+{
+	gotoAndStop(1, "Main Menu");
+}
