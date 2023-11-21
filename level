@@ -1,0 +1,176 @@
+import flash.media.SoundMixer;
+import flash.events.MouseEvent;
+import flash.events.KeyboardEvent;
+import flash.events.Event;
+import flash.ui.Keyboard;
+import flash.events.TimerEvent;
+import flash.utils.Timer;
+
+stop();
+hero.stop();
+
+var wspeed:Number = 0;
+var vy:Number = 0;
+var gv:Number = 1;
+var jumped:Boolean = false;
+var score:Number = 0;
+var lives:Number = 3;
+
+scorebox.text = score.toString();
+livesbox.text = lives.toString();
+
+stage.addEventListener(KeyboardEvent.KEY_DOWN, keydown);
+stage.addEventListener(KeyboardEvent.KEY_UP, keyup);
+stage.addEventListener(Event.ENTER_FRAME, gameloop);
+
+function keydown(e:KeyboardEvent):void {
+    if (e.keyCode == Keyboard.LEFT) {
+        wspeed = -10;
+        hero.gotoAndStop(2);
+    }
+    if (e.keyCode == Keyboard.RIGHT) {
+        wspeed = 10;
+        hero.gotoAndStop(1);
+    }
+    if (e.keyCode == Keyboard.SPACE) {
+        if (!jumped) {
+            vy = -14;
+            jumped = true;
+        }
+    }
+}
+
+function keyup(e:KeyboardEvent):void {
+    if (e.keyCode == Keyboard.LEFT || e.keyCode == Keyboard.RIGHT) {
+        wspeed = 0;
+    }
+}
+
+function gameloop(e:Event):void {
+    moveplayer();
+    jumpgravity();
+    exitlevel();
+    exitlevel2();
+    pickup();
+    enemy();
+}
+
+function pickup():void {
+    if (key && hero.hitTestObject(key)) {
+        key.visible = false;
+    }
+    if (star1 && hero.hitTestObject(star1)) {
+        star1.x = 2000;
+        score++;
+        scorebox.text = score.toString();
+    }
+    if (star2 && hero.hitTestObject(star2)) {
+        star2.x = 2000;
+        score++;
+        scorebox.text = score.toString();
+    }
+    if (star3 && hero.hitTestObject(star3)) {
+        star3.x = 2000;
+        score++;
+        scorebox.text = score.toString();
+    }
+    if (star4 && hero.hitTestObject(star4)) {
+        star4.x = 2000;
+        score++;
+        scorebox.text = score.toString();
+    }
+}
+
+function moveplayer():void {
+    hero.x += wspeed;
+
+    if (hero.x < 0) {
+        hero.x = 0;
+    }
+    if (hero.x > 2000) {
+        hero.x = 2000;
+    }
+}
+
+function jumpgravity():void {
+    vy += gv;
+    if (!platforms.hitTestPoint(hero.x, hero.y, true)) {
+        hero.y += vy;
+    }
+
+    for (var i:int = 0; i < 10; i++) {
+        if (platforms.hitTestPoint(hero.x, hero.y, true)) {
+            hero.y--;
+            vy = 0;
+            jumped = false;
+        }
+    }
+}
+
+function exitlevel():void {
+    if (hero.hitTestObject(exit)) {
+        if (key.visible == false) {
+            gotoAndStop(1, "Level 2");
+        }
+    }
+}
+
+function exitlevel2():void {
+    if (hero.hitTestObject(exit)) {
+        if (key.visible == false) {
+            stopAudio3();
+            gotoAndStop(1, "Mizan");
+        }
+    }
+}
+
+var timeleft:Number = 60;
+timerbox.text = timeleft.toString();
+
+var gameTimer:Timer = new Timer(1000, 0);
+
+gameTimer.addEventListener(TimerEvent.TIMER, countDown);
+
+function countDown(e:TimerEvent):void {
+    timeleft--;
+    timerbox.text = timeleft.toString();
+
+    if (timeleft < 1) {
+        stopAudio3();
+        gotoAndStop(1, "Game Over");
+    }
+}
+
+gameTimer.start();
+
+function enemy():void {
+    if (enemy1 && hero.hitTestObject(enemy1)) {
+        hero.x = 833;
+        hero.y = 888;
+        if (lives <= 1) {
+            lives = 0;
+            stopAudio3();
+            gotoAndStop(1, "Game Over");
+        } else {
+            lives--;
+            livesbox.text = lives.toString();
+        }
+    }
+
+    if (enemy2 && hero.hitTestObject(enemy2)) {
+        hero.x = 833;
+        hero.y = 888;
+        if (lives <= 1) {
+            lives = 0;
+            stopAudio3();
+            gotoAndStop(1, "Game Over");
+        } else {
+            lives--;
+            livesbox.text = lives.toString();
+        }
+    }
+}
+
+function stopAudio3():void {
+    SoundMixer.stopAll();
+}
