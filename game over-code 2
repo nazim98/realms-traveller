@@ -1,0 +1,6 @@
+stage.removeEventListener(KeyboardEvent.KEY_DOWN,keydown);
+stage.removeEventListener(KeyboardEvent.KEY_UP,keyup);
+stage.removeEventListener(Event.ENTER_FRAME,gameloop);
+gameTimer.removeEventListener(TimerEvent.TIMER, countDown);
+
+play();
