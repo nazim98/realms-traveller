@@ -1,0 +1,21 @@
+import flash.media.SoundMixer;
+import flash.events.MouseEvent;
+
+restartButt.addEventListener(MouseEvent.CLICK, fl_ClickToGoToNextFrame_2);
+
+function fl_ClickToGoToNextFrame_2(event:MouseEvent):void {
+    stopAudio1();
+    gotoAndPlay(1, "Level 1");
+}
+
+menuButt.addEventListener(MouseEvent.CLICK, fl_ClickToGoToNextFrame_8);
+
+function fl_ClickToGoToNextFrame_8(event:MouseEvent):void {
+    stopAudio1();
+    gotoAndStop(1, "Main Menu");
+}
+
+function stopAudio1():void {
+    SoundMixer.stopAll();
+}
+
